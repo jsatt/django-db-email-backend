@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 import django
 
-from db_email_backend.models import Email
+from .models import Email
 
 
 @override_settings(EMAIL_BACKEND='db_email_backend.backend.DBEmailBackend')
@@ -53,7 +53,7 @@ class DBEmailBackendTest(TestCase):
         with open('README.md') as f:
             self.assertEqual(attachment.file.read().decode('utf8'), f.read())
         if django.VERSION >= (1, 9):
-            self.assertEqual(attachment.mimetype, 'application/octet-stream')
+            self.assertEqual(attachment.mimetype, 'text/markdown')
         else:
             self.assertEqual(attachment.mimetype, '')
 
