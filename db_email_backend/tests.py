@@ -53,7 +53,7 @@ class DBEmailBackendTest(TestCase):
         with open('README.md') as f:
             self.assertEqual(attachment.file.read().decode('utf8'), f.read())
         if django.VERSION >= (1, 9):
-            self.assertEqual(attachment.mimetype, 'text/markdown')
+            self.assertIn(attachment.mimetype, ('application/octet-stream', 'text/markdown'))
         else:
             self.assertEqual(attachment.mimetype, '')
 
