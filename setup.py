@@ -40,7 +40,7 @@ setup_args = dict(
         'db_email_backend.south_migrations'
     ],
     install_requires=[
-        "django>=1.4",
+        "django>=1.8",
         "pytz",
     ],
 )
