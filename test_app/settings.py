@@ -21,7 +21,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_nose',
 
     'db_email_backend',
 )
@@ -35,9 +34,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 DEFAULT_FILE_STORAGE = 'test_app.storage.TestStorage'
-
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-NOSE_ARGS = ('--nocapture', )
 
 MEDIA_ROOT = BASE_DIR + '/media/'
 MEDIA_URL = '/media/'
