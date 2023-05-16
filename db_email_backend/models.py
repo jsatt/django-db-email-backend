@@ -2,26 +2,30 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import gettext_lazy as _
 
 
-@python_2_unicode_compatible
 class Email(models.Model):
-    create_date = models.DateTimeField(auto_now_add=True)
-    subject = models.TextField(blank=True)
-    body = models.TextField(blank=True)
-    content_subtype = models.CharField(max_length=254)
-    from_email = models.CharField(max_length=254, blank=True)
-    to = models.TextField(blank=True)
-    cc = models.TextField(blank=True)
-    bcc = models.TextField(blank=True)
-    headers = models.TextField(blank=True)
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Creation date"))
+    subject = models.TextField(blank=True, verbose_name=_("Subject"))
+    body = models.TextField(blank=True, verbose_name=_('Body'))
+    content_subtype = models.CharField(max_length=254, verbose_name=_("content subtype"))
+    from_email = models.CharField(max_length=254, blank=True, verbose_name=_('From'))
+    to = models.TextField(blank=True, verbose_name=_('To'))
+    cc = models.TextField(blank=True, verbose_name=_('CC'))
+    bcc = models.TextField(blank=True, verbose_name=_('BCC'))
+    headers = models.TextField(blank=True, verbose_name=_('Headers'))
+    succeeded = models.BooleanField(default=True, verbose_name=_('Succeeded?'))
+    error = models.TextField(blank=True, verbose_name=_('Errors'))
 
     def __str__(self):
         return '{} - {}, {}'.format(self.subject, self.to, self.create_date)
 
+    class Meta:
+        verbose_name = _('Email Log')
+        verbose_name_plural = _('Emails Log')
 
-@python_2_unicode_compatible
+
 class EmailAlternative(models.Model):
     email = models.ForeignKey(Email, on_delete=models.CASCADE, related_name='alternatives')
     content = models.TextField(blank=True)
@@ -31,7 +35,6 @@ class EmailAlternative(models.Model):
         return '{}: alternative {}'.format(self.email, self.mimetype)
 
 
-@python_2_unicode_compatible
 class EmailAttachment(models.Model):
     email = models.ForeignKey(Email, on_delete=models.CASCADE, related_name='attachments')
     filename = models.CharField(max_length=1000, blank=True)
